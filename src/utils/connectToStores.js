@@ -65,15 +65,13 @@ function connectToStores(Component) {
     },
 
     componentDidMount() {
-      stores.forEach((store) => {
-        store.listen(this.onChange)
+      this.storeListeners = stores.map((store) => {
+        return store.listen(this.onChange)
       })
     },
 
     componentWillUnmount() {
-      stores.forEach((store) => {
-        store.unlisten(this.onChange)
-      })
+      this.storeListeners.forEach(unlisten => unlisten())
     },
 
     onChange() {
